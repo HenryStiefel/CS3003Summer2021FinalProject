@@ -503,7 +503,12 @@ public class CodeGen {
 	} if (op.val.equals(Operator.AND)) {
 		jfile.writeln("iand");
 		return;
-	} if (op.val.equals(Operator.NOT)) {
+	} if (op.val.equals(Operator.XOR)) {
+		// The integer xor is a part of the vm instruction set which makes this easy
+		jfile.writeln("ixor");
+		return;
+	}
+	if (op.val.equals(Operator.NOT)) {
 	//	jfile.writeln("negate");
 		return;
 	}

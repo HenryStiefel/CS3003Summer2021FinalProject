@@ -312,15 +312,28 @@ public class Parser {
     }
   
     private Expression conjunction () {
-        // Conjunction --> Equality { && Equality }
-	Expression e = equality();
+        // Conjunction --> exclusive_disjunction { && Exclusive_Disjunction }
+	Expression e = exclusive_disjunction();
 	while (token.type().equals(TokenType.And)) {
 		Operator op = new Operator(match(TokenType.And));
-		Expression expr2 = equality();
+		Expression expr2 = exclusive_disjunction();
 		e = new Binary(op, e, expr2);
 	}
         return e;  // student exercise
     }
+	
+	// Added New
+	
+	private Expression exclusive_disjunction () {
+		// Exclusive_Disjunction --> Equality {  }
+	Expression e = equality();
+	while(token.type().equals(TokenType.Xor)) {
+		Operator op = new Operator(match(TokenType.Xor));
+		Expression expr2 = equality();
+		e = new Binary(op, e, expr2);
+	}
+		return e;
+	}
   
     private Expression equality () {
         // Equality --> Relation [ EquOp Relation ]

@@ -1,11 +1,11 @@
 // a first program with
 // two comment lines
 int main() {
-    char c;
-    int i;
+    int qqq;
+    int x;
+    int y;
     c = 'h';
-    i = c + 3;
     qqq = 999;
     x = y + 5;
-    while (1)  x = 42;
+    while (true)  x = 42 + qqq;
 } // main
