@@ -180,14 +180,21 @@ public class Parser {
 	if (token.type().equals(TokenType.Int)) {
 		t = Type.INT;
 	} else if (token.type().equals(TokenType.Bool)) {
-		t = Type.BOOL;
+		t = Type.BOOL; }
+	else if (token.type().equals(TokenType.Time)) {
+			t = Type.TIME;
 	} else if (token.type().equals(TokenType.Char)) {
 		t = Type.CHAR;
 	} else if (token.type().equals(TokenType.Float)) {
 		t = Type.FLOAT;
+	} 
+	//HENRY
+	else if (token.type().equals(TokenType.Time)) {
+		t = Type.TIME;
 	} else if (token.type().equals(TokenType.Void)) {
 		t = Type.VOID;
-	} else error("int | bool | float | char");
+		//HENRY
+	} else error("int | bool | float | char | time");
         // student exercise
         return t;          
     }
@@ -434,10 +441,14 @@ public class Parser {
 	} else if (token.type().equals(TokenType.IntLiteral)) {
 		int i_val = Integer.parseInt(match(token.type()));
 		val = new IntValue(i_val);
-	} else if (token.type().equals(TokenType.FloatLiteral)) {
+	} 
+	
+	else if (token.type().equals(TokenType.FloatLiteral)) {
 		float f_val = Float.parseFloat(match(token.type()));
 		val = new FloatValue(f_val);
-	} else {
+	} 
+	
+	else {
 		char c_val = match(token.type()).charAt(0);
 		val = new CharValue(c_val); 
 	} 
@@ -477,6 +488,7 @@ public class Parser {
             || token.type().equals(TokenType.Bool) 
             || token.type().equals(TokenType.Float)
             || token.type().equals(TokenType.Char)
+			|| token.type().equals(TokenType.Time)
 	    || token.type().equals(TokenType.Void);
     }
     
@@ -495,7 +507,7 @@ public class Parser {
     public static void main(String args[]) {
 //        Parser parser  = new Parser(new Lexer(args[0])); //Picks the file name and feeds it to the lexer.
 //        Parser parser  = new Parser(new Lexer("hello.cpp"));
-        Parser parser  = new Parser(new Lexer("undeclaredVariable.cpp"));
+        Parser parser  = new Parser(new Lexer("hello.cpp"));
         Program prog = parser.program();
         
         prog.applyTypeSystemRules();
