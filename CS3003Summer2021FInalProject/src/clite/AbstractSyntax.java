@@ -3,6 +3,9 @@
 // Sourced from https://github.com/NickStephens/Clite
 package clite;
 
+import java.time.Clock;
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.*;
 
 class Program {
@@ -258,6 +261,7 @@ class Type {
     final static Type CHAR = new Type("char");
     final static Type FLOAT = new Type("float");
     final static Type VOID = new Type("void");
+    final static Type TIME = new Type("time");
     // final static Type UNDEFINED = new Type("undef");
     
     private String id;
@@ -272,6 +276,8 @@ class Type {
 		return "I";
 	else if (this.equals(Type.FLOAT))
 		return "F";
+    else if (this.equals(Type.TIME))
+        return "T";
 	else if (this.equals(Type.VOID))
 		return "V";
 	else
@@ -489,6 +495,12 @@ abstract class Value extends Expression {
         return 0.0f;
     }
 
+    String timeValue ( ) 
+    {
+        assert false : "should never reach here";
+        return " ";
+    }
+
     boolean isUndef( ) { return undef; }
 
     Type type ( ) { return type; }
@@ -498,6 +510,7 @@ abstract class Value extends Expression {
         if (type == Type.BOOL) return new BoolValue( );
         if (type == Type.CHAR) return new CharValue( );
         if (type == Type.FLOAT) return new FloatValue( );
+        if (type == Type.TIME) return new TimeValue( );
         throw new IllegalArgumentException("Illegal type in mkValue");
     }
 }
@@ -588,6 +601,25 @@ class FloatValue extends Value {
 
 }
 
+class TimeValue extends Value {
+    private String value = "00:00";
+
+    TimeValue ( ) { type = Type.TIME; }
+
+    TimeValue (String v) { this( ); value = v; undef = false; }
+
+    String timeValue ( ) {
+        assert !undef : "reference to undefined float value";
+        return value;
+    }
+
+    public String toString( ) {
+        if (undef)  return "undef";
+        return "" + value;
+    }
+
+}
+
 class Binary extends Expression {
 // Binary = Operator op; Expression term1, term2
     Operator op;
@@ -656,6 +688,7 @@ class Operator {
     final static String INT = "int";
     final static String FLOAT = "float";
     final static String CHAR = "char";
+    final static String TIME = "time";
     // Typed Operators
     // RelationalOp = < | <= | == | != | >= | >
     final static String INT_LT = "INT<";
